@@ -85,3 +85,20 @@ function testWhite(x) {
     var white = new RegExp(/^\s$/);
     return white.test(x.charAt(0));
 };
+
+function getDaysInMonth() {
+    let d = new Date();
+    let ym = d.getFullYear() * 12 + d.getMonth() + 1;
+    let y = Math.floor(ym / 12);
+    let m = ym % 12;
+    d = new Date(`${y}/${m + 1}/1`);
+    d = new Date(d.getTime() - 1);
+    const days = d.getDate();
+    const array = [];
+    for (let i = 1; i <= days; i++) {
+        array.push(i);
+    }
+    return array;
+}
+
+

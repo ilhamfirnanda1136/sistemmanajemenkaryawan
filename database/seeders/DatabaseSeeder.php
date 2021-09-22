@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+use DB,Hash;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,6 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        DB::table('Users')->insert([
+            'name' => 'ilham HRD',
+            'username' => 'hrdperusahaan',
+            'password' => Hash::make('hrdperusahaan'),
+            'email'=> 'hrdperusahaan@gmail.com',
+            'level' => 'hrd'
+        ]);
+        DB::table('Users')->insert([
+            'name' => 'Atasan Perusahaan',
+            'username' => 'atasanperusahaan',
+            'password' => Hash::make('atasanperusahaan'),
+            'email'=> 'atasanperusahaan@gmail.com',
+            'level' => 'atasan'
+        ]);
     }
 }
