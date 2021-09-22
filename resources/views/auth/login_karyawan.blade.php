@@ -30,19 +30,19 @@
             </button>
         </div>
         @endif
-        @if(Session::has('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Gagal &nbsp</strong>{{session('error')}}.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        @endif
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth bg-dark theme-one">
-          <div class="row w-100">
-            <div class="col-lg-4 mx-auto">
-              <div class="auto-form-wrapper">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+          <div class="content-wrapper d-flex align-items-center auth bg-dark theme-one">
+            <div class="row w-100">
+              <div class="col-lg-4 mx-auto">
+                <div class="auto-form-wrapper">
+                @if(Session::has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal &nbsp</strong>{{session('error')}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 <h4 class="text-center">SISTEM INFORMASI MANAJEMEN KARYAWAN </h4>
                 <form action="{{ route('login') }}" method="post" class="user" >
                   @csrf

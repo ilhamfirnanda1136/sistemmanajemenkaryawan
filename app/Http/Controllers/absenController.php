@@ -55,7 +55,7 @@ class absenController extends Controller
     /* Riwayat Absen  */
     protected function Query($bulan,$tahun,$status)
     {
-        $sessionId = Session::has('karyawan')->id ?? Session::get('karyawan')->id ;
+        $sessionId = Session::has('karyawan') ?? Session::get('karyawan')->id ;
         $absen = absenmasuk::whereYear('created_at',$tahun)->whereMonth('created_at',$bulan)->when($status == 1, function($q) use($sessionId) {
             return $q->where('karyawan_id',$sessionId);
         })->get(); 

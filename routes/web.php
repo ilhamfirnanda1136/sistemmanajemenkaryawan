@@ -63,7 +63,7 @@ Route::middleware(['karyawan'])->group(function () {
 /* Authentication HRD ATASAN */
 Route::prefix('admin')->group(function () {
     Route::get('login',[authenticationAdminController::class,'loginView']);
-    Route::post('login',[authenticationAdminController::class,'loginProcess'])->name('login');
+    Route::post('login',[authenticationAdminController::class,'loginProcess']);
 });
 
 
