@@ -40,6 +40,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 mt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Grafik Izin</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="grafik-izin" width="100%"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <div class="col-md-12 grid-margin mt-3">
                 <div class="card">
@@ -62,21 +74,26 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no=1;
+                                    $no=1;
                                     @endphp
                                     @foreach($izin as $i)
-                                        <tr>
-                                            <td>{{$no++}}</td>
-                                            <td>{{$i->karyawan->nama}}</td>
-                                            <td>{{$i->jenis_ijin ? 'Izin Sakit' : 'Izin Cuti'}}</td>
-                                            <td>{{$i->keterangan}}</td>
-                                            <td>{{$i->tanggal_ijin}}</td>
-                                            @if(Auth::user()->level == 'atasan')
-                                            <td>{!!$i->status != 1 ? '<button class="btn btn-primary btn-approve" data-id="'.$i->id.'" ><i class="fa fa-pencil"></i> Approve Permohonan</button>' : '<span class="badge badge-success">Sudah Ter Approve</span>' !!}</td>
-                                            @else
-                                            <td>{!! $i->status == 1 ? '<span class="badge badge-success">Telah diapprove</span>' : '<span class="badge badge-success">Belum diapprove</span>'!!}</td>
-                                            @endif
-                                        </tr>
+                                    <tr>
+                                        <td>{{$no++}}</td>
+                                        <td>{{$i->karyawan->nama}}</td>
+                                        <td>{{$i->jenis_ijin ? 'Izin Sakit' : 'Izin Cuti'}}</td>
+                                        <td>{{$i->keterangan}}</td>
+                                        <td>{{$i->tanggal_ijin}}</td>
+                                        @if(Auth::user()->level == 'atasan')
+                                        <td>{!!$i->status != 1 ? '<button class="btn btn-primary btn-approve"
+                                                data-id="'.$i->id.'"><i class="fa fa-pencil"></i> Approve
+                                                Permohonan</button>' : '<span class="badge badge-success">Sudah Ter
+                                                Approve</span>' !!}</td>
+                                        @else
+                                        <td>{!! $i->status == 1 ? '<span class="badge badge-success">Telah
+                                                diapprove</span>' : '<span class="badge badge-success">Belum
+                                                diapprove</span>'!!}</td>
+                                        @endif
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -89,26 +106,77 @@
 </div>
 @stop
 @section('footer')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>
     $('#table-permohonan').DataTable()
-
-    $('body').on('click','.btn-approve',function(){
-        const approve=$(this).data('id');
-        const url = "{{url('admin/izin/approve')}}/"+approve;
-        swal({
-              title: "Yakin?",
-              text: "anda yakin ingin mengapprove permohonan ijin karyawan ini??",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
+    const tahun = $('#tahun').val();
+    const bulan = $('#bulan').val();
+    fetch(`${process_env_url}/admin/izin/grafik/karyawan/${bulan}/${tahun}`)
+        .then(res => res.json())
+        .then(data => {
+            var ctx = document.getElementById('grafik-izin').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: getDaysInMonth(),
+                    datasets: [{
+                        label: `Grafik Permohonan Ketidakhadiran`,
+                        backgroundColor: 'red',
+                        borderColor: 'red',
+                        data: data.data
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Grafik Permohonan Ketidakhadiran'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Month'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            }
+                        }]
+                    }
+                }
             })
-            .then((willDelete) => {
-              if (willDelete) {
-                window.location=url;
-              } else {
+        }).catch(err => console.log(err))
+
+    $('body').on('click', '.btn-approve', function () {
+        const approve = $(this).data('id');
+        const url = "{{url('admin/izin/approve')}}/" + approve;
+        swal({
+            title: "Yakin?",
+            text: "anda yakin ingin mengapprove permohonan ijin karyawan ini??",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                window.location = url;
+            } else {
                 swal("Anda membatalkan hapus data");
-              }
-            });
+            }
+        });
     })
 </script>
 @endsection

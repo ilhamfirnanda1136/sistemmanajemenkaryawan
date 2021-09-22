@@ -87,4 +87,14 @@ class izinController extends Controller
         $izin->save();
         return redirect()->back()->with('sukses','anda telah berhasil melakukan approval permohonan ijin karyawan');
     }
+
+    public function grafikIzin($bulan,$tahun)
+    {
+        $data = [];
+        for($m=1;$m<=cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);$m++) {
+            $izin = ketidakhadiran::whereDay('created_at',$m)->count();
+            array_push($data,$izin);
+        }
+        return response()->json(['data'=> $data]);
+    }
 }

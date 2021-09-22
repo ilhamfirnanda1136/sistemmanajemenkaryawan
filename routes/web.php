@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
         /* Permohonan Izin */
         Route::get('izin',[izinController::class,'riwayatIzin']);
         Route::get('izin/approve/{id}',[izinController::class,'approveIzin']);
+        Route::get('izin/grafik/karyawan/{bulan}/{tahun}',[izinController::class,'grafikIzin']);
     });
 
 });
