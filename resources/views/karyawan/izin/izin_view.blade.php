@@ -83,7 +83,7 @@
                 self.removeAttr('disabled');
                 if ($.isEmptyObject(data.data.errors)) {
                     $.each(data.data.success, key => {
-                        let pesan = $(`#` + key);
+                        let pesan = $(`#` + key).parent();
                         let text = $('.' + key);
                         pesan.removeClass('has-danger');
                         text.text(null);

@@ -52,26 +52,12 @@
                 self.text('Absen Keluar');
                 self.removeAttr('disabled');
                 if ($.isEmptyObject(data.data.errors)) {
-                    $.each(data.data.success, key => {
-                        let pesan = $(`#` + key);
-                        let text = $('.' + key);
-                        pesan.removeClass('has-danger');
-                        text.text(null);
-                    });
                     swal({
                         title: "Pesan!",
                         text: data.data.message,
                         icon: "success",
                     }).then(() => location.reload())
                 } else {
-                    $.each(data.data.errors, function (key, value) {
-                        let pesan = $(`#` + key).parent();
-                        let text = $('.' + key);
-                        pesan.removeClass('has-danger');
-                        text.text(null);
-                        pesan.addClass('has-danger');
-                        text.text(value);
-                    });
                     swal({
                         title: "Pesan!",
                         text: data.data.message,

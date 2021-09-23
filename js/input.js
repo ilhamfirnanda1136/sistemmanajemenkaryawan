@@ -25,38 +25,8 @@ function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-function uang(bilangan)
-{
-    var	reverse = bilangan.toString().split('').reverse().join('');
-	var ribuan 	= reverse.match(/\d{1,3}/g);
-    ribuan	= ribuan.join('.').split('').reverse().join('');
-    return ribuan;
-}
 
-function randomColor() {
-    const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
-     let hexColor = "#";
-     for (let i = 0; i < 6; i++) {
-         hexColor += hex[Math.floor(Math.random() * hex.length)];
-     }
-     return hexColor;
-}
 
-function inputRupiah(number) {
-       let number_string = number.replace(/[^,\d]/g, "").toString(),
-           split = number_string.split(","),
-           sisa = split[0].length % 3,
-           rupiah = split[0].substr(0, sisa),
-           ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-       // tambahkan titik jika yang di input sudah menjadi angka ribuan
-       if (ribuan) {
-           let separator = sisa ? "." : "";
-           rupiah += separator + ribuan.join(".");
-       }
-       return (rupiah =
-           split[1] != undefined ? rupiah + "," + split[1] : rupiah);
-}
 
 function wordWrap(str, maxWidth) {
     var newLineStr = "<br>"; done = false; res = '';
