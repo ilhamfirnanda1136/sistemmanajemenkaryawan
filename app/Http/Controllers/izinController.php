@@ -31,7 +31,7 @@ class izinController extends Controller
         $tanggal = $request->tanggal;
         $model = ketidakhadiran::when($tanggal != null,function($query) use ($tanggal) {
             return $query->whereDate('created_at',$tanggal);
-        })->with(['karyawan'])->where('karyawan',Session::get('karyawan')->id)->orderBy('id','desc');
+        })->with(['karyawan'])->where('karyawan_id',Session::get('karyawan')->id)->orderBy('id','desc');
         return DataTables::of($model)
         ->addColumn('jenisijin',function($model){
             return $model->jenis_ijin == 1 ? 'Izin Sakit' : 'Izin Cuti';
